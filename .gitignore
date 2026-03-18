@@ -1,0 +1,10 @@
+/.vscode
+
+# Ignore build files
+/build
+
+# Ignore data files
+/data
+
+# Ignore placeholder keep files
+**/.gitkeep
