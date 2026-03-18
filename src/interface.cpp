@@ -1,9 +1,9 @@
-#include "../include/Interface.h"
-#include "../include/DatabaseManager.h"
-#include "../include/User.h"
-#include "../include/Product.h"
-#include "../include/Cart.h"
-#include "../include/AdminPanel.h"
+#include "../include/Interface.hpp"
+#include "../include/DatabaseManager.hpp"
+#include "../include/User.hpp"
+#include "../include/Product.hpp"
+#include "../include/Cart.hpp"
+#include "../include/AdminPanel.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
