@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page id="product" title="Product Details">
+  <header>
+    <brand>ElectronicShop</brand>
+  </header>
+
+  <navigation>
+    <link target="catalog">Catalog</link>
+    <link target="product">Product</link>
+    <link target="account">Account</link>
+    <link target="signin">Sign In</link>
+    <link target="signup">Sign Up</link>
+  </navigation>
+
+  <content>
+    <product id="p001">
+      <media>
+        <image src="assets/products/p001-main.png" alt="Product image" />
+      </media>
+      <details>
+        <name>Sample Product</name>
+        <sku>SKU-P001</sku>
+        <price currency="USD">499.99</price>
+        <stock>In Stock</stock>
+        <description>Product description goes here.</description>
+      </details>
+      <actions>
+        <button id="addToCart" type="primary">Add to Cart</button>
+        <button id="buyNow" type="secondary">Buy Now</button>
+      </actions>
+    </product>
+  </content>
+</page>

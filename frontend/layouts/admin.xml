@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page id="admin" title="Admin Panel">
+  <header>
+    <brand>ElectronicShop Admin</brand>
+  </header>
+
+  <navigation>
+    <link target="admin">Dashboard</link>
+    <link target="catalog">Catalog</link>
+    <link target="account">Users</link>
+  </navigation>
+
+  <content>
+    <stats>
+      <card title="Total Products" value="0" />
+      <card title="Total Orders" value="0" />
+      <card title="Total Users" value="0" />
+      <card title="Pending Issues" value="0" />
+    </stats>
+
+    <management>
+      <section id="products" title="Manage Products" />
+      <section id="orders" title="Manage Orders" />
+      <section id="users" title="Manage Users" />
+    </management>
+
+    <actions>
+      <button id="addProduct" type="primary">Add Product</button>
+      <button id="exportData" type="secondary">Export Data</button>
+    </actions>
+  </content>
+</page>

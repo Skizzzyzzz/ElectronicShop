@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme name="ElectronicShopDefault">
+  <colors>
+    <color name="background">#F8F9FB</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="primary">#1F6FEB</color>
+    <color name="secondary">#2DA44E</color>
+    <color name="danger">#D1242F</color>
+    <color name="text">#1F2328</color>
+    <color name="muted">#57606A</color>
+  </colors>
+
+  <typography>
+    <font family="Inter, sans-serif" />
+    <size role="title">24</size>
+    <size role="heading">18</size>
+    <size role="body">14</size>
+    <size role="caption">12</size>
+  </typography>
+
+  <spacing>
+    <unit name="xs">4</unit>
+    <unit name="sm">8</unit>
+    <unit name="md">16</unit>
+    <unit name="lg">24</unit>
+    <unit name="xl">32</unit>
+  </spacing>
+</theme>

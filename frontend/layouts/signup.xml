@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page id="signup" title="Sign Up">
+  <header>
+    <brand>ElectronicShop</brand>
+  </header>
+
+  <content>
+    <form id="signupForm" method="post" action="/signup">
+      <field name="Full Name" type="text" required="true" />
+      <field name="Email" type="email" required="true" />
+      <field name="Password" type="password" required="true" />
+      <field name="Confirm Password" type="password" required="true" />
+      <field name="Phone" type="tel" required="false" />
+      <actions>
+        <button id="signupButton" type="primary">Create Account</button>
+      </actions>
+      <meta>
+        <link target="signin">Already have an account? Sign in</link>
+      </meta>
+    </form>
+  </content>
+</page>

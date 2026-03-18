@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page id="catalog" title="Catalog">
+  <header>
+    <brand>ElectronicShop</brand>
+    <search placeholder="Search products..." />
+  </header>
+
+  <navigation>
+    <link target="catalog">Catalog</link>
+    <link target="product">Product</link>
+    <link target="account">Account</link>
+    <link target="signin">Sign In</link>
+    <link target="signup">Sign Up</link>
+  </navigation>
+
+  <filters>
+    <filter name="Category" type="dropdown" />
+    <filter name="Price" type="range" />
+    <filter name="Availability" type="toggle" />
+  </filters>
+
+  <content>
+    <product-grid columns="4">
+      <product-card id="p001" />
+      <product-card id="p002" />
+      <product-card id="p003" />
+      <product-card id="p004" />
+    </product-grid>
+  </content>
+
+  <pagination page="1" totalPages="10" />
+</page>

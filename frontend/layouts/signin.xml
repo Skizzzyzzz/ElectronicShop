@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page id="signin" title="Sign In">
+  <header>
+    <brand>ElectronicShop</brand>
+  </header>
+
+  <content>
+    <form id="signinForm" method="post" action="/signin">
+      <field name="Email" type="email" required="true" />
+      <field name="Password" type="password" required="true" />
+      <actions>
+        <button id="signinButton" type="primary">Sign In</button>
+      </actions>
+      <meta>
+        <link target="signup">Create account</link>
+        <link target="forgotPassword">Forgot password?</link>
+      </meta>
+    </form>
+  </content>
+</page>

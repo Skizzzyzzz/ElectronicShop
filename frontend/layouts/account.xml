@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page id="account" title="My Account">
+  <header>
+    <brand>ElectronicShop</brand>
+  </header>
+
+  <navigation>
+    <link target="catalog">Catalog</link>
+    <link target="product">Product</link>
+    <link target="account">Account</link>
+    <link target="signin">Sign In</link>
+    <link target="signup">Sign Up</link>
+  </navigation>
+
+  <content>
+    <profile>
+      <field name="Full Name" value="" />
+      <field name="Email" value="" />
+      <field name="Phone" value="" />
+      <field name="Address" value="" />
+    </profile>
+
+    <orders>
+      <title>Order History</title>
+      <order id="o1001" status="Shipped" />
+      <order id="o1002" status="Processing" />
+    </orders>
+
+    <actions>
+      <button id="saveProfile" type="primary">Save Changes</button>
+      <button id="logout" type="danger">Log Out</button>
+    </actions>
+  </content>
+</page>
