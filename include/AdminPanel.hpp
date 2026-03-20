@@ -8,9 +8,7 @@
 #ifndef ADMINPANEL_H
 #define ADMINPANEL_H
 
-#include "DatabaseManager.h"
-#include "Product.h"
-#include "User.h"
+#include "DatabaseManager.hpp"
 #include <vector>
 #include <string>
 

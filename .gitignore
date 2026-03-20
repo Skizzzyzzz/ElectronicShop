@@ -2,6 +2,16 @@
 
 # Ignore build files
 /build
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.log
+*.dSYM/
 
 # Ignore data files
 /data

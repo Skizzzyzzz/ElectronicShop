@@ -1,20 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<page id="signin" title="Sign In">
-  <header>
-    <brand>ElectronicShop</brand>
-  </header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In - ElectronicShop</title>
+</head>
+<body>
+  <h1>Sign In</h1>
+  <form id="signinForm">
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <button type="submit">Sign In</button>
+  </form>
+  <a href="/signup">Create account</a>
 
-  <content>
-    <form id="signinForm" method="post" action="/signin">
-      <field name="Email" type="email" required="true" />
-      <field name="Password" type="password" required="true" />
-      <actions>
-        <button id="signinButton" type="primary">Sign In</button>
-      </actions>
-      <meta>
-        <link target="signup">Create account</link>
-        <link target="forgotPassword">Forgot password?</link>
-      </meta>
-    </form>
-  </content>
-</page>
+  <script>
+    document.getElementById('signinForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.querySelector('input[name="username"]').value;
+      const password = document.querySelector('input[name="password"]').value;
+      const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const result = await response.json();
+      if (result.status === 'success') {
+        window.location.href = '/catalog';
+      } else {
+        alert(result.message);
+      }
+    });
+  </script>
+</body>
+</html>

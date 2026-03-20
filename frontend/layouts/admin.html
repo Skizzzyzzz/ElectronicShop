@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - ElectronicShop</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+    header { background-color: #333; color: white; padding: 10px 20px; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 1200px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1, h2 { color: #333; }
+    form { margin-bottom: 20px; }
+    input, select, textarea, button { margin: 5px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #45a049; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #f2f2f2; }
+    footer { text-align: center; padding: 10px; background-color: #333; color: white; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/catalog">Catalog</a>
+        <a href="/cart">Cart</a>
+        <a href="/account">Account</a>
+        <a href="/admin">Admin</a>
+      </div>
+      <div>
+        <span>ElectronicShop - Admin</span>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Admin Panel</h1>
+  <h2>Add User</h2>
+  <form id="addUserForm">
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="text" name="phone" placeholder="Phone" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="text" name="address" placeholder="Address" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <select name="role">
+      <option value="Customer">Customer</option>
+      <option value="Admin">Admin</option>
+    </select><br>
+    <button type="submit">Add User</button>
+  </form>
+
+  <h2>Add Product</h2>
+  <form id="addProductForm">
+    <input type="text" name="name" placeholder="Product Name" required><br>
+    <input type="number" name="price" placeholder="Price" step="0.01" required><br>
+    <input type="number" name="stock" placeholder="Stock" required><br>
+    <input type="text" name="category" placeholder="Category"><br>
+    <textarea name="description" placeholder="Description"></textarea><br>
+    <input type="text" name="photo" placeholder="Photo URL"><br>
+    <button type="submit">Add Product</button>
+  </form>
+
+  <h2>Import Products from CSV</h2>
+  <form id="importForm">
+    <textarea name="csvData" placeholder="Paste CSV data here (name,cost,stock,category,description,photo)" rows="10" required></textarea><br>
+    <button type="submit">Import</button>
+  </form>
+
+  <h2>Orders</h2>
+  <table id="ordersTable" border="1">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>User Name</th>
+        <th>Address</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Orders will be loaded here -->
+    </tbody>
+  </table>
+
+  <script>
+    const role = localStorage.getItem('role');
+    if (role !== 'Admin') {
+      window.location.href = '/catalog';
+    }
+
+    document.getElementById('addUserForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.querySelector('input[name="username"]').value;
+      const phone = document.querySelector('input[name="phone"]').value;
+      const email = document.querySelector('input[name="email"]').value;
+      const address = document.querySelector('input[name="address"]').value;
+      const password = document.querySelector('input[name="password"]').value;
+      const role = document.querySelector('select[name="role"]').value;
+      const response = await fetch('/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, phone, password, email, address, role })
+      });
+      const result = await response.json();
+      alert(result.message);
+    });
+
+    document.getElementById('addProductForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.querySelector('input[name="name"]').value;
+      const price = parseFloat(document.querySelector('input[name="price"]').value);
+      const stock = parseInt(document.querySelector('input[name="stock"]').value);
+      const category = document.querySelector('input[name="category"]').value;
+      const description = document.querySelector('textarea[name="description"]').value;
+      const photo = document.querySelector('input[name="photo"]').value;
+      const response = await fetch('/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, price, stock, category, description, photo })
+      });
+      const result = await response.json();
+      alert(result.message);
+    });
+
+    document.getElementById('importForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const csvData = document.querySelector('textarea[name="csvData"]').value;
+      const response = await fetch('/admin/import-products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ csvData })
+      });
+      const result = await response.json();
+      alert(result.message);
+    });
+
+    // Load orders
+    async function loadOrders() {
+      const response = await fetch('/admin/orders');
+      const orders = await response.json();
+      const tbody = document.querySelector('#ordersTable tbody');
+      tbody.innerHTML = '';
+      orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.userName}</td>
+          <td>${order.address}</td>
+          <td>$${order.total.toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    loadOrders();
+  </script>
+  <footer>
+    <p>&copy; 2026 ElectronicShop. All rights reserved.</p>
+  </footer>
+</body>
+</html>

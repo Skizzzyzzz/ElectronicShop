@@ -20,13 +20,40 @@
   </filters>
 
   <content>
-    <product-grid columns="4">
-      <product-card id="p001" />
-      <product-card id="p002" />
-      <product-card id="p003" />
-      <product-card id="p004" />
+    <product-grid id="productGrid" columns="4">
+      <!-- Products will be loaded here -->
     </product-grid>
   </content>
 
-  <pagination page="1" totalPages="10" />
+  <script type="text/javascript">
+    async function loadProducts() {
+      const response = await fetch('/products');
+      const products = await response.json();
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      products.forEach(product => {
+        const card = document.createElement('product-card');
+        card.setAttribute('id', `p${product.id}`);
+        card.innerHTML = `
+          <h3>${product.name}</h3>
+          <p>$${product.price}</p>
+          <p>Stock: ${product.stock}</p>
+          <button onclick="addToCart(${product.id})">Add to Cart</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function addToCart(productId) {
+      const response = await fetch('/cart/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId })
+      });
+      const result = await response.json();
+      alert(result.message);
+    }
+
+    window.onload = loadProducts;
+  </script>
 </page>

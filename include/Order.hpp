@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Product.h"
+#include "DatabaseManager.hpp"
 
 // helper struct to store product + quantity
 struct OrderItem

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Catalog - ElectronicShop</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+    header { background-color: #333; color: white; padding: 10px 20px; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 1200px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { color: #333; text-align: center; }
+    #productGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    #productGrid > div { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; background: #fff; }
+    img { max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px; }
+    button { background-color: #4CAF50; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px; width: 100%; }
+    button:hover { background-color: #45a049; }
+    footer { text-align: center; padding: 10px; background-color: #333; color: white; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/catalog">Catalog</a>
+        <a href="/cart">Cart</a>
+        <a href="/account">Account</a>
+      </div>
+      <div>
+        <span>ElectronicShop</span>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Product Catalog</h1>
+    <div id="productGrid">
+      <!-- Products will be loaded here -->
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2026 ElectronicShop. All rights reserved.</p>
+  </footer>
+
+  <script>
+    async function loadProducts() {
+      const response = await fetch('/products');
+      const products = await response.json();
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.innerHTML = `
+          ${product.photo ? `<img src="${product.photo}" alt="${product.name}" style="width:150px;">` : ''}
+          <h3>${product.name}</h3>
+          <p>Category: ${product.category || 'N/A'}</p>
+          <p>${product.description || ''}</p>
+          <p>$${product.price}</p>
+          <p>Stock: ${product.stock}</p>
+          <button onclick="addToCart(${product.id})">Add to Cart</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function addToCart(productId) {
+      if (!localStorage.getItem('user_id')) {
+        alert('Please sign in to add items to cart.');
+        window.location.href = '/signin';
+        return;
+      }
+      const userId = localStorage.getItem('user_id');
+      const response = await fetch('/cart/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId, userId })
+      });
+      const result = await response.json();
+      console.log('[WEB] addToCart', { userId, productId, result });
+      alert(result.message);
+    }
+
+    window.onload = loadProducts;
+  </script>
+</body>
+</html>

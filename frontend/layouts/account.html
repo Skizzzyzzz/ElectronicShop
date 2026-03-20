@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Account - ElectronicShop</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+    header { background-color: #333; color: white; padding: 10px 20px; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1, h2 { color: #333; }
+    form { margin-bottom: 20px; }
+    input, textarea, button { margin: 5px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; display: block; width: 100%; }
+    button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #45a049; }
+    footer { text-align: center; padding: 10px; background-color: #333; color: white; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/catalog">Catalog</a>
+        <a href="/cart">Cart</a>
+        <a href="/account">Account</a>
+      </div>
+      <div>
+        <span>ElectronicShop</span>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>My Account</h1>
+  <a href="/catalog">Back to Catalog</a>
+  <h2>Update Profile</h2>
+  <form id="updateForm">
+    <input type="hidden" name="id" id="userId">
+    <label>Name: <input type="text" name="name" id="name" required></label><br>
+    <label>Email: <input type="email" name="email" id="email" required></label><br>
+    <label>Phone: <input type="text" name="phone" id="phone" required></label><br>
+    <label>Address: <input type="text" name="address" id="address" required></label><br>
+    <label>Password: <input type="password" name="password" id="password" placeholder="Leave empty to keep current"></label><br>
+    <button type="submit">Update</button>
+  </form>
+
+  <script>
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      window.location.href = '/signin';
+    }
+
+    // Load user info
+    fetch(`/user/info?user_id=${userId}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'error') {
+          alert(data.message);
+          window.location.href = '/signin';
+        } else {
+          document.getElementById('userId').value = data.id;
+          document.getElementById('name').value = data.name;
+          document.getElementById('email').value = data.email;
+          document.getElementById('phone').value = data.phone;
+          document.getElementById('address').value = data.address;
+        }
+      });
+
+    document.getElementById('updateForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('userId').value;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const address = document.getElementById('address').value;
+      const password = document.getElementById('password').value;
+      const response = await fetch('/user/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: parseInt(id), name, email, phone, address, password })
+      });
+      const result = await response.json();
+      alert(result.message);
+      if (result.status === 'success') {
+        // Optionally reload or redirect
+      }
+    });
+  </script>
+  <footer>
+    <p>&copy; 2026 ElectronicShop. All rights reserved.</p>
+  </footer>
+</body>
+</html>

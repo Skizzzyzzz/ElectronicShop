@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In - ElectronicShop</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; display: flex; flex-direction: column; min-height: 100vh; }
+    header { background-color: #333; color: white; padding: 10px 20px; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; }
+    nav a:hover { text-decoration: underline; }
+    .container { flex: 1; max-width: 400px; margin: 50px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { color: #333; text-align: center; }
+    form { display: flex; flex-direction: column; }
+    input { margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    button { margin: 10px 0; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background-color: #45a049; }
+    a { text-align: center; margin-top: 10px; color: #333; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { text-align: center; padding: 10px; background-color: #333; color: white; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/signin">Sign In</a>
+        <a href="/signup">Sign Up</a>
+      </div>
+      <div>
+        <span>ElectronicShop</span>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Sign In</h1>
+    <form id="signinForm">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Sign In</button>
+    </form>
+    <a href="/signup">Create account</a>
+  </div>
+  <footer>
+    <p>&copy; 2026 ElectronicShop. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('signinForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.querySelector('input[name="username"]').value;
+      const password = document.querySelector('input[name="password"]').value;
+      const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const result = await response.json();
+      if (result.status === 'success') {
+        localStorage.setItem('username', username);
+        localStorage.setItem('role', result.role);
+        localStorage.setItem('user_id', result.user_id);
+        if (result.role === 'Admin') {
+          window.location.href = '/admin';
+        } else {
+          window.location.href = '/catalog';
+        }
+      } else {
+        alert(result.message);
+      }
+    });
+  </script>
+</body>
+</html>

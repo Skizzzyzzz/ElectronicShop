@@ -2,12 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "Product.hpp"
-
-struct CartItem {
-    Product product;
-    int quantity;
-};
+#include "DatabaseManager.hpp"
 
 class Cart {
 public:
@@ -26,6 +21,10 @@ public:
     std::vector<CartItem> getItems() const;
 
     void displayCart() const;
+    std::string getCartAsString() const;
+    bool isEmpty() const;
+    void clearCart();
+    void addProduct(const Product& p);
     bool containsProduct(int productId) const;
 
     std::vector<std::string> toOrderCSV(int orderId) const;
